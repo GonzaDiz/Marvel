@@ -25,7 +25,16 @@ class CharacterListViewModelTests: XCTestCase {
     }
 
     func test_viewModel_whenListCharactersIsInvoked_shouldGetCharactersFromService() {
-        let mockedCharacters = [Character(name: "Spider-Man", thumbnail: nil)]
+        let mockedCharacters = [
+            Character(
+                name: "Spider-Man",
+                thumbnail: nil,
+                description: "Description",
+                comics: nil,
+                series: nil,
+                stories: nil,
+                events: nil
+            )]
         let mockedCharacterDataContainer = CharacterDataContainer(results: mockedCharacters, count: 1)
 
         charactersServiceSpy.stubbedGetCharacterDataContainerResult = Single.just(mockedCharacterDataContainer)
@@ -67,6 +76,6 @@ private class CharactersServiceSpy: CharactersService {
 
 extension Character: Equatable {
     public static func == (lhs: Character, rhs: Character) -> Bool {
-        return lhs.name == rhs.name
+        return lhs.name == rhs.name && lhs.description == rhs.description
     }
 }
