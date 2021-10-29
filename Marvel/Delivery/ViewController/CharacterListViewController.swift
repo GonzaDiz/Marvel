@@ -41,6 +41,7 @@ final class CharacterListViewController: UIViewController {
 
     private func setupBindings() {
         disposeBag.insert(
+            ui.tableView.rx.setDelegate(self),
             viewModel.characters.bind(
                 to: ui.tableView.rx.items(
                     cellIdentifier: CharacterTableViewCell.cellIdentifier,
@@ -62,5 +63,13 @@ final class CharacterListViewController: UIViewController {
                 self?.didSelectCharacter(character)
             })
         )
+    }
+}
+
+// MARK: UITableViewDelegate
+
+extension CharacterListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        ui.tableView.deselectRow(at: indexPath, animated: true)
     }
 }

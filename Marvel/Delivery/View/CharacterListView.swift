@@ -11,7 +11,6 @@ import UIKit
 final class CharacterListView: UIView {
     private lazy var loadingFooterView: UIView = {
         let contentView = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 60))
-
         let activityIndicator = UIActivityIndicatorView()
         contentView.addSubview(activityIndicator)
 
@@ -20,6 +19,8 @@ final class CharacterListView: UIView {
         }
 
         activityIndicator.startAnimating()
+
+        contentView.accessibilityIdentifier = A11y.CharacterListView.loadingView
 
         return contentView
     }()

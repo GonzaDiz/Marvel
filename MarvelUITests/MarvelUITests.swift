@@ -32,4 +32,14 @@ class MarvelUITests: KIFTestCase {
 
         XCTAssertEqual(cellLabel?.text, "3-D MAN")
     }
+
+    func test_loadingView_isShown_whileAPIRequestIsBeingDone() {
+        stub(pathEndsWith: "/v1/public/characters", file: "characters_mock.json", responseTime: 5)
+
+        let loadingView = tester().waitForView(
+            withAccessibilityIdentifier: A11y.CharacterListView.loadingView
+        )
+
+        XCTAssertEqual(loadingView?.isHidden, false)
+    }
 }

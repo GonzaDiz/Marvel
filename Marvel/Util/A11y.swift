@@ -10,6 +10,7 @@ import Foundation
 struct A11y {
     struct CharacterListView {
         static let tableView = "CharacterListView.tableView"
+        static let loadingView = "CharacterListView.loadingView"
     }
 
     struct CharacterTableViewCell {

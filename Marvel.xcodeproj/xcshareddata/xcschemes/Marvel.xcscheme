@@ -53,7 +53,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B31B1B08272B5E6C0026D54A"
+               BlueprintIdentifier = "B3BA7A22272C95EA002A90CD"
                BuildableName = "MarvelUITests.xctest"
                BlueprintName = "MarvelUITests"
                ReferencedContainer = "container:Marvel.xcodeproj">
