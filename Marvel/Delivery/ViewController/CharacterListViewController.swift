@@ -14,22 +14,22 @@ final class CharacterListViewController: UIViewController {
     private let viewModel: CharacterListViewModel
     private let disposeBag = DisposeBag()
     private let reuseIdentifier = "UITableViewCell"
-    
+
     private lazy var loadingFooterView: UIView = {
         let contentView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 60))
-        
+
         let activityIndicator = UIActivityIndicatorView()
         contentView.addSubview(activityIndicator)
-        
+
         activityIndicator.snp.makeConstraints { make in
             make.center.equalTo(contentView)
         }
-        
+
         activityIndicator.startAnimating()
 
         return contentView
     }()
-    
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
@@ -54,15 +54,15 @@ final class CharacterListViewController: UIViewController {
         setupBindings()
         viewModel.listCharacters()
     }
-    
+
     private func setupConstraints() {
         view.addSubview(tableView)
-        
+
         tableView.snp.makeConstraints { make in
             make.leading.top.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
-    
+
     private func setupBindings() {
         disposeBag.insert(
             viewModel.characters.bind(
@@ -84,13 +84,13 @@ final class CharacterListViewController: UIViewController {
             }
         )
     }
-    
+
     private func didScrollToBottom() -> Bool {
         let offsetY = tableView.contentOffset.y
         let height = tableView.contentSize.height
         let buffer = 150.0
-        
+
         return offsetY > (height - tableView.frame.size.height - buffer)
-        
+
     }
 }

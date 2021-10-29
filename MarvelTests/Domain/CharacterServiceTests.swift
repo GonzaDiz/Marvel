@@ -49,7 +49,7 @@ class CharacterServiceTests: XCTestCase {
         stub(pathEndsWith: path, file: "characters_failure_mock.json")
 
         let expectation = XCTestExpectation(description: "Get character data container should fail")
-        
+
         service.getCharacterDataContainer(offset: 0).subscribe { event in
             switch event {
             case .success:

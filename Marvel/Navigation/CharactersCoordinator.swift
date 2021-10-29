@@ -13,11 +13,11 @@ protocol Coordinator {
 
 final class CharactersCoordinator: Coordinator {
     private let navigationController: UINavigationController
-    
+
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
-    
+
     func start() {
         let service = LiveCharacterService(marvelAPI: MarvelAPI())
         let viewModel = CharacterListViewModel(charactersService: service)

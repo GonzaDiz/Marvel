@@ -16,20 +16,20 @@ class CharacterListViewModelTests: XCTestCase {
     private let disposeBag = DisposeBag()
     private var charactersServiceSpy: CharactersServiceSpy!
     private var viewModel: CharacterListViewModel!
-    
+
     override func setUp() {
         super.setUp()
-        
+
         charactersServiceSpy = CharactersServiceSpy()
         viewModel = CharacterListViewModel(charactersService: charactersServiceSpy)
     }
-    
+
     func test_viewModel_whenListCharactersIsInvoked_shouldGetCharactersFromService() {
         let mockedCharacters = [Character(name: "Spider-Man", thumbnail: nil)]
         let mockedCharacterDataContainer = CharacterDataContainer(results: mockedCharacters, count: 1)
-        
+
         charactersServiceSpy.stubbedGetCharacterDataContainerResult = Single.just(mockedCharacterDataContainer)
-        
+
         let charactersObserver = scheduler.createObserver([Character].self)
 
         viewModel.characters.asDriver().drive(charactersObserver).disposed(by: disposeBag)
@@ -37,9 +37,9 @@ class CharacterListViewModelTests: XCTestCase {
         scheduler.scheduleAt(0) { [weak self] in
             self?.viewModel.listCharacters()
         }
-        
+
         scheduler.start()
-        
+
         XCTAssertEqual(
             charactersObserver.events,
             [
@@ -47,7 +47,7 @@ class CharacterListViewModelTests: XCTestCase {
                 .next(0, mockedCharacters)
             ]
         )
-        
+
         XCTAssertEqual(charactersServiceSpy.invokedGetCharacterDataContainer, true)
         XCTAssertEqual(charactersServiceSpy.invokedGetCharacterDataContainerCount, 1)
     }

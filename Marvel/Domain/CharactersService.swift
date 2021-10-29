@@ -32,7 +32,7 @@ final class LiveCharacterService: CharactersService {
                 observer(.failure(LiveCharactersListServiceError.charactersURLNotFound))
                 return Disposables.create()
             }
-            
+
             let parameters = [
                 "offset": offset
             ].merging(self.marvelAPI.commonParameters) { current, _ in
@@ -56,7 +56,7 @@ final class LiveCharacterService: CharactersService {
                 }
             }
 
-            return Disposables.create{
+            return Disposables.create {
                 task.cancel()
             }
         }

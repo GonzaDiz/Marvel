@@ -11,7 +11,7 @@ import RxRelay
 final class CharacterListViewModel {
     let characters = BehaviorRelay<[Character]>(value: [])
     let isLoading = BehaviorRelay<Bool>(value: false)
-    
+
     private let charactersService: CharactersService
     private let disposeBag = DisposeBag()
     private var offset = 0
@@ -19,11 +19,11 @@ final class CharacterListViewModel {
     init(charactersService: CharactersService) {
         self.charactersService = charactersService
     }
-    
+
     func listCharacters() {
         if isLoading.value { return }
         isLoading.accept(true)
-        
+
         charactersService.getCharacterDataContainer(offset: offset).subscribe { [weak self] event in
             guard let self = self else { return }
             switch event {
@@ -34,7 +34,7 @@ final class CharacterListViewModel {
             case .failure:
                 self.characters.accept([])
             }
-            
+
             self.isLoading.accept(false)
         }.disposed(by: disposeBag)
     }
