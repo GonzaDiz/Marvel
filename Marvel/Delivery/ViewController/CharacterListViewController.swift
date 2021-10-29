@@ -14,6 +14,7 @@ final class CharacterListViewController: UIViewController {
     private let viewModel: CharacterListViewModel
     private let disposeBag = DisposeBag()
     private let reuseIdentifier = "UITableViewCell"
+    private let didSelectCharacter: (Character) -> Void
 
     private lazy var loadingFooterView: UIView = {
         let contentView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 60))
@@ -37,8 +38,9 @@ final class CharacterListViewController: UIViewController {
         return tableView
     }()
 
-    init(viewModel: CharacterListViewModel) {
+    init(viewModel: CharacterListViewModel, didSelectCharacter: @escaping (Character) -> Void) {
         self.viewModel = viewModel
+        self.didSelectCharacter = didSelectCharacter
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -81,7 +83,10 @@ final class CharacterListViewController: UIViewController {
                 if self.didScrollToBottom() {
                     self.viewModel.listCharacters()
                 }
-            }
+            },
+            tableView.rx.modelSelected(Character.self).subscribe(onNext: { [weak self] character in
+                self?.didSelectCharacter(character)
+            })
         )
     }
 

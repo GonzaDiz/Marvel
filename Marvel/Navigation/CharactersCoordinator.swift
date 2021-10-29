@@ -21,7 +21,15 @@ final class CharactersCoordinator: Coordinator {
     func start() {
         let service = LiveCharacterService(marvelAPI: MarvelAPI())
         let viewModel = CharacterListViewModel(charactersService: service)
-        let viewController = CharacterListViewController(viewModel: viewModel)
+        let viewController = CharacterListViewController(viewModel: viewModel) { [weak self] character in
+            self?.showCharacterDetail(character)
+        }
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showCharacterDetail(_ character: Character) {
+        let viewModel = CharacterDetailViewModel(character: character)
+        let viewController = CharacterDetailViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
 }
