@@ -19,8 +19,9 @@ final class CharactersCoordinator: Coordinator {
     }
     
     func start() {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .red
+        let service = LiveCharacterService(marvelAPI: MarvelAPI())
+        let viewModel = CharacterListViewModel(charactersService: service)
+        let viewController = CharacterListViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
 }
