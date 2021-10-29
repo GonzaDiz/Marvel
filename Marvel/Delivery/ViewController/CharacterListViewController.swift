@@ -14,9 +14,26 @@ final class CharacterListViewController: UIViewController {
     private let viewModel: CharacterListViewModel
     private let disposeBag = DisposeBag()
     private let reuseIdentifier = "UITableViewCell"
+    
+    private lazy var loadingFooterView: UIView = {
+        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 60))
+        
+        let activityIndicator = UIActivityIndicatorView()
+        contentView.addSubview(activityIndicator)
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalTo(contentView)
+        }
+        
+        activityIndicator.startAnimating()
+
+        return contentView
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.tableFooterView = loadingFooterView
         return tableView
     }()
 
@@ -55,6 +72,9 @@ final class CharacterListViewController: UIViewController {
                 )
             ) { (_, item, cell) in
                 cell.textLabel?.text = item.name
+            },
+            viewModel.isLoading.subscribe { [weak self] isLoading in
+                self?.tableView.tableFooterView?.isHidden = !isLoading
             },
             tableView.rx.didScroll.subscribe { [weak self] _ in
                 guard let self = self else { return }
