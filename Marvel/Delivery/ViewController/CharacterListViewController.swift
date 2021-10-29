@@ -16,27 +16,7 @@ final class CharacterListViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let didSelectCharacter: (Character) -> Void
 
-    private lazy var loadingFooterView: UIView = {
-        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 60))
-
-        let activityIndicator = UIActivityIndicatorView()
-        contentView.addSubview(activityIndicator)
-
-        activityIndicator.snp.makeConstraints { make in
-            make.center.equalTo(contentView)
-        }
-
-        activityIndicator.startAnimating()
-
-        return contentView
-    }()
-
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CharacterTableViewCell.cellIdentifier)
-        tableView.tableFooterView = loadingFooterView
-        return tableView
-    }()
+    private lazy var ui = CharacterListView()
 
     init(viewModel: CharacterListViewModel, didSelectCharacter: @escaping (Character) -> Void) {
         self.viewModel = viewModel
@@ -48,27 +28,21 @@ final class CharacterListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func loadView() {
+        view = ui
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Marvel Characters"
-        view.backgroundColor = .systemBackground
-        setupConstraints()
         setupBindings()
         viewModel.listCharacters()
-    }
-
-    private func setupConstraints() {
-        view.addSubview(tableView)
-
-        tableView.snp.makeConstraints { make in
-            make.leading.top.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
     }
 
     private func setupBindings() {
         disposeBag.insert(
             viewModel.characters.bind(
-                to: tableView.rx.items(
+                to: ui.tableView.rx.items(
                     cellIdentifier: CharacterTableViewCell.cellIdentifier,
                     cellType: CharacterTableViewCell.self
                 )
@@ -76,26 +50,17 @@ final class CharacterListViewController: UIViewController {
                 cell.setup(name: item.name, imageURL: item.thumbnail?.url)
             },
             viewModel.isLoading.subscribe { [weak self] isLoading in
-                self?.tableView.tableFooterView?.isHidden = !isLoading
+                self?.ui.hideLoadingView(isLoading)
             },
-            tableView.rx.didScroll.subscribe { [weak self] _ in
+            ui.tableView.rx.didScroll.subscribe { [weak self] _ in
                 guard let self = self else { return }
-                if self.didScrollToBottom() {
+                if self.ui.didScrollToBottom() {
                     self.viewModel.listCharacters()
                 }
             },
-            tableView.rx.modelSelected(Character.self).subscribe(onNext: { [weak self] character in
+            ui.tableView.rx.modelSelected(Character.self).subscribe(onNext: { [weak self] character in
                 self?.didSelectCharacter(character)
             })
         )
-    }
-
-    private func didScrollToBottom() -> Bool {
-        let offsetY = tableView.contentOffset.y
-        let height = tableView.contentSize.height
-        let buffer = 150.0
-
-        return offsetY > (height - tableView.frame.size.height - buffer)
-
     }
 }

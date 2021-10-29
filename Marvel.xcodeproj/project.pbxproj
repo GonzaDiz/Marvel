@@ -41,6 +41,7 @@
 		B38C94FF272C40DC00A77EB7 /* UITableViewCell+Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38C94FE272C40DC00A77EB7 /* UITableViewCell+Reusable.swift */; };
 		B38C9501272C447500A77EB7 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38C9500272C447500A77EB7 /* Spacing.swift */; };
 		B38C9504272C458900A77EB7 /* ThumbnailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38C9503272C458900A77EB7 /* ThumbnailTests.swift */; };
+		B38C9506272C471300A77EB7 /* CharacterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38C9505272C471300A77EB7 /* CharacterListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		B38C94FE272C40DC00A77EB7 /* UITableViewCell+Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Reusable.swift"; sourceTree = "<group>"; };
 		B38C9500272C447500A77EB7 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		B38C9503272C458900A77EB7 /* ThumbnailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailTests.swift; sourceTree = "<group>"; };
+		B38C9505272C471300A77EB7 /* CharacterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				B38C94FB272C405C00A77EB7 /* CharacterTableViewCell.swift */,
+				B38C9505272C471300A77EB7 /* CharacterListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				B3528EC2272B676F004834D6 /* CharactersService.swift in Sources */,
 				B3528EED272B6F2D004834D6 /* CharacterDataWrapper.swift in Sources */,
 				B38C94FF272C40DC00A77EB7 /* UITableViewCell+Reusable.swift in Sources */,
+				B38C9506272C471300A77EB7 /* CharacterListView.swift in Sources */,
 				B3528ECC272B6803004834D6 /* CharacterDataContainer.swift in Sources */,
 				B38C9501272C447500A77EB7 /* Spacing.swift in Sources */,
 				B38C94F5272C1A6700A77EB7 /* CharacterDetailViewModel.swift in Sources */,
