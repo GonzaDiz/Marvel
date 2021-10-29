@@ -7,11 +7,13 @@
 
 import Foundation
 import XCTest
+import RxSwift
 @testable import Marvel
 
 class CharacterServiceTests: XCTestCase {
     let path = "/v1/public/characters"
     let marvelAPI = MarvelAPI()
+    let disposeBag = DisposeBag()
     var service: CharactersService!
 
     override func setUp() {
@@ -29,7 +31,7 @@ class CharacterServiceTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Get character data container should succeed")
 
-        _ = service.getCharacterDataContainer().subscribe { event in
+        service.getCharacterDataContainer().subscribe { event in
             switch event {
             case let .success(characterDataContainer):
                 XCTAssertEqual(characterDataContainer.count, 2)
@@ -38,7 +40,7 @@ class CharacterServiceTests: XCTestCase {
             case .failure:
                 XCTFail()
             }
-        }
+        }.disposed(by: disposeBag)
 
         wait(for: [expectation], timeout: 3)
     }
@@ -48,14 +50,14 @@ class CharacterServiceTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Get character data container should fail")
         
-        _ = service.getCharacterDataContainer().subscribe { event in
+        service.getCharacterDataContainer().subscribe { event in
             switch event {
             case .success:
                 XCTFail()
             case .failure:
                 expectation.fulfill()
             }
-        }
+        }.disposed(by: disposeBag)
 
         wait(for: [expectation], timeout: 3)
     }

@@ -6,9 +6,19 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
+import SnapKit
 
 final class CharacterListViewController: UIViewController {
     private let viewModel: CharacterListViewModel
+    private let disposeBag = DisposeBag()
+    private let reuseIdentifier = "UITableViewCell"
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        return tableView
+    }()
 
     init(viewModel: CharacterListViewModel) {
         self.viewModel = viewModel
@@ -21,6 +31,31 @@ final class CharacterListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        title = "Marvel Characters"
+        view.backgroundColor = .systemBackground
+        setupConstraints()
+        setupBindings()
+        viewModel.listCharacters()
+    }
+    
+    private func setupConstraints() {
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints { make in
+            make.leading.top.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+    
+    private func setupBindings() {
+        disposeBag.insert(
+            viewModel.characters.bind(
+                to: tableView.rx.items(
+                    cellIdentifier: reuseIdentifier,
+                    cellType: UITableViewCell.self
+                )
+            ) { (_, item, cell) in
+                cell.textLabel?.text = item.name
+            }
+        )
     }
 }
