@@ -28,6 +28,7 @@ final class CharacterListView: UIView {
         let tableView = UITableView()
         tableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CharacterTableViewCell.cellIdentifier)
         tableView.tableFooterView = loadingFooterView
+        tableView.accessibilityIdentifier = A11y.CharacterListView.tableView
         return tableView
     }()
 

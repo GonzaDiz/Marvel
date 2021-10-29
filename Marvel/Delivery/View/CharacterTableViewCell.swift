@@ -16,6 +16,7 @@ final class CharacterTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textColor = .label
         label.numberOfLines = 0
+        label.accessibilityIdentifier = A11y.CharacterTableViewCell.nameLabel
         return label
     }()
 
