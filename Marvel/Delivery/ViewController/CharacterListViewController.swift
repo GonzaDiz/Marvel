@@ -55,7 +55,22 @@ final class CharacterListViewController: UIViewController {
                 )
             ) { (_, item, cell) in
                 cell.textLabel?.text = item.name
+            },
+            tableView.rx.didScroll.subscribe { [weak self] _ in
+                guard let self = self else { return }
+                if self.didScrollToBottom() {
+                    self.viewModel.listCharacters()
+                }
             }
         )
+    }
+    
+    private func didScrollToBottom() -> Bool {
+        let offsetY = tableView.contentOffset.y
+        let height = tableView.contentSize.height
+        let buffer = 150.0
+        
+        return offsetY > (height - tableView.frame.size.height - buffer)
+        
     }
 }

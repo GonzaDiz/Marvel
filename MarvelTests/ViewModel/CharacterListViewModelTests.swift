@@ -58,7 +58,7 @@ private class CharactersServiceSpy: CharactersService {
     var invokedGetCharacterDataContainerCount = 0
     var stubbedGetCharacterDataContainerResult: Single<CharacterDataContainer>!
 
-    func getCharacterDataContainer() -> Single<CharacterDataContainer> {
+    func getCharacterDataContainer(offset: Int) -> Single<CharacterDataContainer> {
         invokedGetCharacterDataContainer = true
         invokedGetCharacterDataContainerCount += 1
         return stubbedGetCharacterDataContainerResult

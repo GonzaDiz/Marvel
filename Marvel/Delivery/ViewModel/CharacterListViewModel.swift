@@ -13,20 +13,29 @@ final class CharacterListViewModel {
     
     private let charactersService: CharactersService
     private let disposeBag = DisposeBag()
+    private var offset = 0
+    private var isListingCharacters = false
 
     init(charactersService: CharactersService) {
         self.charactersService = charactersService
     }
     
     func listCharacters() {
-        charactersService.getCharacterDataContainer().subscribe { [weak self] event in
+        if isListingCharacters { return }
+        isListingCharacters = true
+        
+        charactersService.getCharacterDataContainer(offset: offset).subscribe { [weak self] event in
             guard let self = self else { return }
             switch event {
             case let .success(characterDataContainer):
-                self.characters.accept(characterDataContainer.results ?? [])
+                self.offset += characterDataContainer.count ?? 0
+                let oldCharacters = self.characters.value
+                self.characters.accept(oldCharacters + (characterDataContainer.results ?? []))
             case .failure:
                 self.characters.accept([])
             }
+            
+            self.isListingCharacters = false
         }.disposed(by: disposeBag)
     }
 }

@@ -9,7 +9,7 @@ import Alamofire
 import RxSwift
 
 protocol CharactersService {
-    func getCharacterDataContainer() -> Single<CharacterDataContainer>
+    func getCharacterDataContainer(offset: Int) -> Single<CharacterDataContainer>
 }
 
 final class LiveCharacterService: CharactersService {
@@ -24,7 +24,7 @@ final class LiveCharacterService: CharactersService {
         self.marvelAPI = marvelAPI
     }
 
-    func getCharacterDataContainer() -> Single<CharacterDataContainer> {
+    func getCharacterDataContainer(offset: Int) -> Single<CharacterDataContainer> {
         return Single.create { [weak self] observer in
             guard let self = self,
                   let url = self.marvelAPI.charactersURL
@@ -32,11 +32,17 @@ final class LiveCharacterService: CharactersService {
                 observer(.failure(LiveCharactersListServiceError.charactersURLNotFound))
                 return Disposables.create()
             }
+            
+            let parameters = [
+                "offset": offset
+            ].merging(self.marvelAPI.commonParameters) { current, _ in
+                current
+            }
 
             let task = AF.request(
                 url,
                 method: .get,
-                parameters: self.marvelAPI.commonParameters
+                parameters: parameters
             ).validate().responseDecodable(of: CharacterDataWrapper.self) { response in
                 switch response.result {
                 case let .success(characterDataWrapper):
