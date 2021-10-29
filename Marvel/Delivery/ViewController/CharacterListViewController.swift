@@ -5,6 +5,7 @@
 //  Created by Gonzalo Diz on 28/10/2021.
 //
 
+import AlamofireImage
 import UIKit
 import RxCocoa
 import RxSwift
@@ -13,7 +14,6 @@ import SnapKit
 final class CharacterListViewController: UIViewController {
     private let viewModel: CharacterListViewModel
     private let disposeBag = DisposeBag()
-    private let reuseIdentifier = "UITableViewCell"
     private let didSelectCharacter: (Character) -> Void
 
     private lazy var loadingFooterView: UIView = {
@@ -33,7 +33,7 @@ final class CharacterListViewController: UIViewController {
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CharacterTableViewCell.cellIdentifier)
         tableView.tableFooterView = loadingFooterView
         return tableView
     }()
@@ -69,11 +69,11 @@ final class CharacterListViewController: UIViewController {
         disposeBag.insert(
             viewModel.characters.bind(
                 to: tableView.rx.items(
-                    cellIdentifier: reuseIdentifier,
-                    cellType: UITableViewCell.self
+                    cellIdentifier: CharacterTableViewCell.cellIdentifier,
+                    cellType: CharacterTableViewCell.self
                 )
             ) { (_, item, cell) in
-                cell.textLabel?.text = item.name
+                cell.setup(name: item.name, imageURL: item.thumbnail?.url)
             },
             viewModel.isLoading.subscribe { [weak self] isLoading in
                 self?.tableView.tableFooterView?.isHidden = !isLoading
