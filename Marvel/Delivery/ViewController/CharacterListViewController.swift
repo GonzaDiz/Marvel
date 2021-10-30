@@ -50,8 +50,11 @@ final class CharacterListViewController: UIViewController {
             ) { (_, item, cell) in
                 cell.setup(name: item.name, imageURL: item.thumbnail?.url)
             },
-            viewModel.isLoading.subscribe { [weak self] isLoading in
+            viewModel.isLoading.bind { [weak self] isLoading in
                 self?.ui.hideLoadingView(isLoading)
+            },
+            viewModel.error.skip(1).bind { [weak self] errorMessage in
+                self?.ui.showError(errorMessage)
             },
             ui.tableView.rx.didScroll.subscribe { [weak self] _ in
                 guard let self = self else { return }
@@ -59,7 +62,7 @@ final class CharacterListViewController: UIViewController {
                     self.viewModel.listCharacters()
                 }
             },
-            ui.tableView.rx.modelSelected(Character.self).subscribe(onNext: { [weak self] character in
+            ui.tableView.rx.modelSelected(Character.self).bind(onNext: { [weak self] character in
                 self?.didSelectCharacter(character)
             })
         )

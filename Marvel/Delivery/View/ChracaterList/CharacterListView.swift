@@ -25,11 +25,18 @@ final class CharacterListView: UIView {
         return contentView
     }()
 
+    private lazy var placeholderView: PlaceholderView = {
+        let placeholderView = PlaceholderView()
+        placeholderView.isHidden = true
+        return placeholderView
+    }()
+
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CharacterTableViewCell.cellIdentifier)
         tableView.tableFooterView = loadingFooterView
         tableView.accessibilityIdentifier = A11y.CharacterListView.tableView
+        tableView.backgroundView = placeholderView
         return tableView
     }()
 
@@ -53,6 +60,11 @@ final class CharacterListView: UIView {
         let buffer = 150.0
 
         return offsetY > (height - tableView.frame.size.height - buffer)
+    }
+
+    func showError(_ message: String) {
+        placeholderView.setTitle(message)
+        placeholderView.isHidden = false
     }
 
     private func setupConstraints() {

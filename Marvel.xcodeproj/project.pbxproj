@@ -58,6 +58,10 @@
 		B3BA7A59272C9CCE002A90CD /* OHHTTPStubs in Frameworks */ = {isa = PBXBuildFile; productRef = B3BA7A58272C9CCE002A90CD /* OHHTTPStubs */; };
 		B3BA7A5B272C9CCE002A90CD /* OHHTTPStubsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B3BA7A5A272C9CCE002A90CD /* OHHTTPStubsSwift */; };
 		B3BA7A5D272C9D42002A90CD /* A11y.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA7A5C272C9D42002A90CD /* A11y.swift */; };
+		B3BA7AAF272CD178002A90CD /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA7AAE272CD178002A90CD /* UIView+Extension.swift */; };
+		B3BA7AB2272D7B59002A90CD /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA7AB1272D7B59002A90CD /* PlaceholderView.swift */; };
+		B3BA7AB4272D8094002A90CD /* no_characters_mock.json in Resources */ = {isa = PBXBuildFile; fileRef = B3BA7AB3272D8094002A90CD /* no_characters_mock.json */; };
+		B3BA7AB5272D8094002A90CD /* no_characters_mock.json in Resources */ = {isa = PBXBuildFile; fileRef = B3BA7AB3272D8094002A90CD /* no_characters_mock.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +166,9 @@
 		B3BA7A51272C9918002A90CD /* XCTestCase+KIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+KIF.swift"; sourceTree = "<group>"; };
 		B3BA7A53272C9B46002A90CD /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/iOSSupport/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		B3BA7A5C272C9D42002A90CD /* A11y.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A11y.swift; sourceTree = "<group>"; };
+		B3BA7AAE272CD178002A90CD /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		B3BA7AB1272D7B59002A90CD /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
+		B3BA7AB3272D8094002A90CD /* no_characters_mock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = no_characters_mock.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +305,7 @@
 			children = (
 				B3528EE4272B6BE1004834D6 /* characters_mock.json */,
 				B3528EF1272B7318004834D6 /* characters_failure_mock.json */,
+				B3BA7AB3272D8094002A90CD /* no_characters_mock.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -349,9 +357,9 @@
 		B3528EF6272B7940004834D6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B3BA7AB0272D7B2B002A90CD /* ChracaterList */,
 				B38C9509272C4A7000A77EB7 /* CharacterDetail */,
-				B38C94FB272C405C00A77EB7 /* CharacterTableViewCell.swift */,
-				B38C9505272C471300A77EB7 /* CharacterListView.swift */,
+				B3BA7AB1272D7B59002A90CD /* PlaceholderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -402,6 +410,7 @@
 		B3BA7A24272C95EA002A90CD /* MarvelUITests */ = {
 			isa = PBXGroup;
 			children = (
+				B3BA7AA6272CD169002A90CD /* Util */,
 				B3BA7A2C272C95FA002A90CD /* KIF.xcodeproj */,
 				B3BA7A25272C95EA002A90CD /* MarvelUITests.swift */,
 				B3BA7A50272C98D8002A90CD /* MarvelUITests-Bridging-Header.h */,
@@ -431,6 +440,23 @@
 				B3BA7A44272C96CD002A90CD /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B3BA7AA6272CD169002A90CD /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				B3BA7AAE272CD178002A90CD /* UIView+Extension.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		B3BA7AB0272D7B2B002A90CD /* ChracaterList */ = {
+			isa = PBXGroup;
+			children = (
+				B38C94FB272C405C00A77EB7 /* CharacterTableViewCell.swift */,
+				B38C9505272C471300A77EB7 /* CharacterListView.swift */,
+			);
+			path = ChracaterList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -622,6 +648,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3BA7AB4272D8094002A90CD /* no_characters_mock.json in Resources */,
 				B3528EF2272B7318004834D6 /* characters_failure_mock.json in Resources */,
 				B3528EE5272B6BE1004834D6 /* characters_mock.json in Resources */,
 			);
@@ -631,6 +658,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3BA7AB5272D8094002A90CD /* no_characters_mock.json in Resources */,
 				B3BA7A57272C9B8E002A90CD /* characters_failure_mock.json in Resources */,
 				B3BA7A56272C9B8C002A90CD /* characters_mock.json in Resources */,
 			);
@@ -649,6 +677,7 @@
 				B3528EFA272B79A2004834D6 /* CharacterListViewModel.swift in Sources */,
 				B38C9512272C4C3900A77EB7 /* Item.swift in Sources */,
 				B31B1AED272B5E6A0026D54A /* AppDelegate.swift in Sources */,
+				B3BA7AB2272D7B59002A90CD /* PlaceholderView.swift in Sources */,
 				B3528EF8272B7973004834D6 /* CharacterListViewController.swift in Sources */,
 				B31B1AEF272B5E6A0026D54A /* SceneDelegate.swift in Sources */,
 				B3528EE8272B6D19004834D6 /* MarvelAPI.swift in Sources */,
@@ -686,6 +715,7 @@
 			files = (
 				B3BA7A55272C9B7A002A90CD /* XCTest+OHHTTPStubs.swift in Sources */,
 				B3BA7A26272C95EA002A90CD /* MarvelUITests.swift in Sources */,
+				B3BA7AAF272CD178002A90CD /* UIView+Extension.swift in Sources */,
 				B3BA7A52272C9918002A90CD /* XCTestCase+KIF.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

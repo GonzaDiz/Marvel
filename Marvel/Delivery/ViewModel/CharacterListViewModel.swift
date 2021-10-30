@@ -11,6 +11,7 @@ import RxRelay
 final class CharacterListViewModel {
     let characters = BehaviorRelay<[Character]>(value: [])
     let isLoading = BehaviorRelay<Bool>(value: false)
+    let error = BehaviorSubject<String>(value: "")
 
     private let charactersService: CharactersService
     private let disposeBag = DisposeBag()
@@ -29,10 +30,15 @@ final class CharacterListViewModel {
             switch event {
             case let .success(characterDataContainer):
                 self.offset += characterDataContainer.count ?? 0
-                let oldCharacters = self.characters.value
-                self.characters.accept(oldCharacters + (characterDataContainer.results ?? []))
+                let updatedCharacters = self.characters.value + (characterDataContainer.results ?? [])
+
+                guard !updatedCharacters.isEmpty else {
+                    self.error.onNext("We couldn't find any character :(")
+                    return
+                }
+                self.characters.accept(updatedCharacters)
             case .failure:
-                self.characters.accept([])
+                self.error.onNext("Ups! We're sorry something is not working on our side, please try again later")
             }
 
             self.isLoading.accept(false)

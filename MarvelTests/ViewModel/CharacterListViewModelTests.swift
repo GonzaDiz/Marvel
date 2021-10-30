@@ -60,6 +60,55 @@ class CharacterListViewModelTests: XCTestCase {
         XCTAssertEqual(charactersServiceSpy.invokedGetCharacterDataContainer, true)
         XCTAssertEqual(charactersServiceSpy.invokedGetCharacterDataContainerCount, 1)
     }
+
+    func test_viewModel_whenNoCharactersAreFound_returnsError() {
+        charactersServiceSpy.stubbedGetCharacterDataContainerResult = Single.just(CharacterDataContainer(results: [], count: 0))
+
+        let errorObserver = scheduler.createObserver(String.self)
+
+        viewModel.error.asDriver(onErrorJustReturn: "").drive(errorObserver).disposed(by: disposeBag)
+
+        scheduler.scheduleAt(0) { [weak self] in
+            self?.viewModel.listCharacters()
+        }
+
+        scheduler.start()
+
+        XCTAssertEqual(
+            errorObserver.events,
+            [
+                .next(0, ""),
+                .next(0, "We couldn't find any character :(")
+            ]
+        )
+    }
+
+    func test_viewModel_whenServiceFails_returnsError() {
+        charactersServiceSpy.stubbedGetCharacterDataContainerResult = {
+            return Single.create { observer in
+                observer(.failure(NSError(domain: "", code: 0, userInfo: nil)))
+                return Disposables.create()
+            }
+        }()
+
+        let errorObserver = scheduler.createObserver(String.self)
+
+        viewModel.error.asDriver(onErrorJustReturn: "").drive(errorObserver).disposed(by: disposeBag)
+
+        scheduler.scheduleAt(0) { [weak self] in
+            self?.viewModel.listCharacters()
+        }
+
+        scheduler.start()
+
+        XCTAssertEqual(
+            errorObserver.events,
+            [
+                .next(0, ""),
+                .next(0, "Ups! We're sorry something is not working on our side, please try again later")
+            ]
+        )
+    }
 }
 
 private class CharactersServiceSpy: CharactersService {

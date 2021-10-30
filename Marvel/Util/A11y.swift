@@ -16,4 +16,8 @@ struct A11y {
     struct CharacterTableViewCell {
         static let nameLabel = "CharacterTableViewCell.nameLabel"
     }
+
+    struct PlaceholderView {
+        static let titleLabel = "PlaceholderView.titleLabel"
+    }
 }
