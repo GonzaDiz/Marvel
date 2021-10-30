@@ -78,7 +78,7 @@ class CharacterListViewModelTests: XCTestCase {
             errorObserver.events,
             [
                 .next(0, ""),
-                .next(0, "We couldn't find any character :(")
+                .next(0, "We couldn't find any character")
             ]
         )
     }

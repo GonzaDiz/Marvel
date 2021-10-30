@@ -13,7 +13,7 @@ final class PlaceholderView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .none)
+        label.font = .systemFont(ofSize: 26, weight: .semibold)
         label.textColor = .label
         label.numberOfLines = 0
         label.accessibilityIdentifier = A11y.PlaceholderView.titleLabel
@@ -21,8 +21,13 @@ final class PlaceholderView: UIView {
         return label
     }()
 
-    init() {
+    private lazy var imageView = UIImageView()
+
+    private lazy var containerView = UIView()
+
+    init(imageName: String) {
         super.init(frame: .zero)
+        imageView.image = UIImage(named: imageName)
         setupConstraints()
     }
 
@@ -35,12 +40,25 @@ final class PlaceholderView: UIView {
     }
 
     private func setupConstraints() {
-        addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { make in
-            make.center.equalTo(self.safeAreaLayoutGuide.snp.center)
-            make.leading.greaterThanOrEqualTo(snp.leading).offset(Spacing.medium).priority(999)
-            make.trailing.lessThanOrEqualTo(snp.trailing).offset(-Spacing.medium).priority(999)
+        addSubview(containerView)
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(imageView)
 
+        containerView.snp.makeConstraints { make in
+            make.centerX.equalTo(snp.centerX)
+            make.centerY.equalTo(snp.centerY)
+            make.leading.greaterThanOrEqualTo(safeAreaLayoutGuide.snp.leading).offset(Spacing.medium).priority(999)
+            make.trailing.lessThanOrEqualTo(safeAreaLayoutGuide.snp.trailing).offset(-Spacing.medium).priority(999)
+        }
+
+        imageView.snp.makeConstraints { make in
+            make.leading.trailing.top.equalTo(containerView)
+            make.height.width.equalTo(300)
+        }
+
+        titleLabel.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalTo(containerView)
+            make.top.equalTo(imageView.snp.bottom).offset(Spacing.small)
         }
     }
 

@@ -52,8 +52,7 @@ final class CharacterListViewController: UIViewController {
                 cell.setup(name: item.name, imageURL: item.thumbnail?.url)
             },
             viewModel.isLoading.bind { [weak self] isLoading in
-                self?.ui.hideError()
-                self?.ui.hideLoadingView(isLoading)
+                self?.ui.isLoading = isLoading
             },
             viewModel.error.skip(1).bind { [weak self] errorMessage in
                 self?.ui.showError(errorMessage)

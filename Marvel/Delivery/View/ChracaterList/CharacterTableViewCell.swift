@@ -10,20 +10,43 @@ import UIKit
 
 final class CharacterTableViewCell: UITableViewCell {
 
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+
+        view.layer.cornerRadius = 8
+
+        view.layer.masksToBounds = false
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.25
+        view.layer.shadowRadius = 8
+        return view
+    }()
+
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .none)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .label
         label.numberOfLines = 0
         label.accessibilityIdentifier = A11y.CharacterTableViewCell.nameLabel
         return label
     }()
 
-    private lazy var characterImageView = UIImageView()
+    private lazy var characterImageView: UIImageView = {
+        let imageView = UIImageView()
+
+        imageView.layer.cornerRadius = 8
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        backgroundColor = .clear
         setupConstraints()
     }
 
@@ -46,19 +69,27 @@ final class CharacterTableViewCell: UITableViewCell {
     }
 
     private func setupConstraints() {
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(characterImageView)
+        contentView.addSubview(containerView)
+        containerView.addSubview(nameLabel)
+        containerView.addSubview(characterImageView)
+
+        containerView.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(Spacing.small)
+            make.bottom.equalTo(contentView).offset(-Spacing.small)
+            make.leading.equalTo(contentView).offset(Spacing.medium)
+            make.trailing.equalTo(contentView).offset(-Spacing.medium)
+        }
 
         characterImageView.snp.makeConstraints { make in
-            make.top.leading.equalTo(contentView).offset(Spacing.medium)
-            make.bottom.equalTo(contentView).offset(-Spacing.medium).priority(999)
+            make.top.leading.equalTo(containerView).offset(Spacing.medium)
+            make.bottom.equalTo(containerView).offset(-Spacing.medium).priority(999)
             make.width.height.equalTo(100)
         }
 
         nameLabel.snp.makeConstraints { make in
-            make.leading.equalTo(characterImageView.snp.trailing).offset(Spacing.small)
-            make.trailing.equalTo(contentView.snp.trailing).offset(-Spacing.medium)
-            make.top.equalTo(contentView).offset(Spacing.large)
+            make.leading.equalTo(characterImageView.snp.trailing).offset(Spacing.medium)
+            make.trailing.equalTo(containerView.snp.trailing).offset(-Spacing.medium)
+            make.top.equalTo(containerView).offset(Spacing.large)
         }
     }
 }

@@ -27,10 +27,13 @@ class MarvelUITests: KIFTestCase {
 
         let cell = tester().waitForCell(at: IndexPath(row: 0, section: 0), in: tableView) as! CharacterTableViewCell
 
-        let cellLabel = cell.contentView.subviews.first {
-            $0.accessibilityIdentifier == A11y.CharacterTableViewCell.nameLabel
-        } as? UILabel
+        let labels: [UILabel] = cell.getSubviews()
 
+        let cellLabel: UILabel? = labels.first(
+            where: {
+                $0.accessibilityIdentifier == A11y.CharacterTableViewCell.nameLabel
+            }
+        )
         XCTAssertEqual(cellLabel?.text, "3-D MAN")
     }
 
@@ -70,10 +73,7 @@ class MarvelUITests: KIFTestCase {
             withAccessibilityIdentifier: A11y.PlaceholderView.titleLabel
         ) as! UILabel
 
-        XCTAssertEqual(
-            errorViewTitle.text,
-            "We couldn't find any character :("
-        )
+        XCTAssertEqual(errorViewTitle.text, "We couldn't find any character")
     }
 
     private func showCharactersList() {

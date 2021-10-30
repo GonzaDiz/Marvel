@@ -39,7 +39,7 @@ final class CharacterListViewModel {
                 let updatedCharacters = self.characters.value + (characterDataContainer.results ?? [])
 
                 if updatedCharacters.isEmpty {
-                    self.error.onNext("We couldn't find any character :(")
+                    self.error.onNext("We couldn't find any character")
                 } else {
                     self.characters.accept(updatedCharacters)
                 }

@@ -18,6 +18,13 @@ final class CharacterListView: UIView {
         searchBar.text
     }
 
+    var isLoading: Bool = false {
+        didSet {
+            placeholderView.isHidden = true
+            tableView.tableFooterView?.isHidden = !isLoading
+        }
+    }
+
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CharacterTableViewCell.cellIdentifier)
@@ -25,6 +32,8 @@ final class CharacterListView: UIView {
         tableView.accessibilityIdentifier = A11y.CharacterListView.tableView
         tableView.backgroundView = placeholderView
         tableView.keyboardDismissMode = .onDrag
+        tableView.backgroundColor = .systemGray6
+        tableView.separatorStyle = .none
         return tableView
     }()
 
@@ -55,7 +64,7 @@ final class CharacterListView: UIView {
     }()
 
     private lazy var placeholderView: PlaceholderView = {
-        let placeholderView = PlaceholderView()
+        let placeholderView = PlaceholderView(imageName: "sad_deadpool")
         placeholderView.isHidden = true
         return placeholderView
     }()
@@ -63,15 +72,12 @@ final class CharacterListView: UIView {
     init() {
         super.init(frame: .zero)
         backgroundColor = .systemBackground
+
         setupConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func hideLoadingView(_ isLoading: Bool) {
-        tableView.tableFooterView?.isHidden = !isLoading
     }
 
     func didScrollToBottom() -> Bool {
@@ -87,10 +93,6 @@ final class CharacterListView: UIView {
         placeholderView.isHidden = false
     }
 
-    func hideError() {
-        placeholderView.isHidden = true
-    }
-
     private func setupConstraints() {
         addSubview(searchBar)
         addSubview(tableView)
@@ -104,12 +106,23 @@ final class CharacterListView: UIView {
             make.top.equalTo(searchBar.snp.bottom)
         }
     }
+
+    @objc
+    private func updateSearchResults() {
+        delegate?.updateSearchResults(for: searchText)
+    }
 }
 
 // MARK: UISearchBarDelegate
 
 extension CharacterListView: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        delegate?.updateSearchResults(for: searchText)
+        NSObject.cancelPreviousPerformRequests(
+            withTarget: self,
+            selector: #selector(updateSearchResults),
+            object: nil
+        )
+
+        perform(#selector(updateSearchResults), with: nil, afterDelay: 0.5)
     }
 }

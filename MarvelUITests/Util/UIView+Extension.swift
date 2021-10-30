@@ -19,4 +19,18 @@ extension UIView {
         }
         return nil
     }
+
+    func getSubviews<T: UIView>() -> [T] {
+        var subviews = [T]()
+
+        for subview in self.subviews {
+            subviews += subview.getSubviews()as [T]
+
+            if let subview = subview as? T {
+                subviews.append(subview)
+            }
+        }
+
+        return subviews
+    }
 }
