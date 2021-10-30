@@ -8,7 +8,36 @@
 import Foundation
 import UIKit
 
+protocol CharacterListViewDelegate: AnyObject {
+    func updateSearchResults(for text: String?)
+}
+
 final class CharacterListView: UIView {
+
+    var searchText: String? {
+        searchBar.text
+    }
+
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CharacterTableViewCell.cellIdentifier)
+        tableView.tableFooterView = loadingFooterView
+        tableView.accessibilityIdentifier = A11y.CharacterListView.tableView
+        tableView.backgroundView = placeholderView
+        tableView.keyboardDismissMode = .onDrag
+        return tableView
+    }()
+
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar(frame: .zero)
+        searchBar.delegate = self
+        searchBar.backgroundImage = UIImage()
+        searchBar.placeholder = "Search"
+        return searchBar
+    }()
+
+    weak var delegate: CharacterListViewDelegate?
+
     private lazy var loadingFooterView: UIView = {
         let contentView = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 60))
         let activityIndicator = UIActivityIndicatorView()
@@ -29,15 +58,6 @@ final class CharacterListView: UIView {
         let placeholderView = PlaceholderView()
         placeholderView.isHidden = true
         return placeholderView
-    }()
-
-    lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CharacterTableViewCell.cellIdentifier)
-        tableView.tableFooterView = loadingFooterView
-        tableView.accessibilityIdentifier = A11y.CharacterListView.tableView
-        tableView.backgroundView = placeholderView
-        return tableView
     }()
 
     init() {
@@ -67,11 +87,29 @@ final class CharacterListView: UIView {
         placeholderView.isHidden = false
     }
 
+    func hideError() {
+        placeholderView.isHidden = true
+    }
+
     private func setupConstraints() {
+        addSubview(searchBar)
         addSubview(tableView)
 
-        tableView.snp.makeConstraints { make in
-            make.leading.top.trailing.bottom.equalTo(self)
+        searchBar.snp.makeConstraints { make in
+            make.top.trailing.leading.equalTo(safeAreaLayoutGuide)
         }
+
+        tableView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalTo(safeAreaLayoutGuide)
+            make.top.equalTo(searchBar.snp.bottom)
+        }
+    }
+}
+
+// MARK: UISearchBarDelegate
+
+extension CharacterListView: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        delegate?.updateSearchResults(for: searchText)
     }
 }

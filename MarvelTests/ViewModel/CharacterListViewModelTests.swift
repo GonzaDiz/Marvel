@@ -105,7 +105,7 @@ class CharacterListViewModelTests: XCTestCase {
             errorObserver.events,
             [
                 .next(0, ""),
-                .next(0, "Ups! We're sorry something is not working on our side, please try again later")
+                .next(0, "Ups! We're sorry something went wrong, please try again later")
             ]
         )
     }
@@ -116,7 +116,7 @@ private class CharactersServiceSpy: CharactersService {
     var invokedGetCharacterDataContainerCount = 0
     var stubbedGetCharacterDataContainerResult: Single<CharacterDataContainer>!
 
-    func getCharacterDataContainer(offset: Int) -> Single<CharacterDataContainer> {
+    func getCharacterDataContainer(offset: Int, name: String?) -> Single<CharacterDataContainer> {
         invokedGetCharacterDataContainer = true
         invokedGetCharacterDataContainerCount += 1
         return stubbedGetCharacterDataContainerResult

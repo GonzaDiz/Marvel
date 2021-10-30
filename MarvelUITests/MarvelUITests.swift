@@ -57,7 +57,7 @@ class MarvelUITests: KIFTestCase {
 
         XCTAssertEqual(
             errorViewTitle.text,
-            "Ups! We're sorry something is not working on our side, please try again later"
+            "Ups! We're sorry something went wrong, please try again later"
         )
     }
 

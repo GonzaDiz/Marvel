@@ -30,13 +30,14 @@ final class CharacterListViewController: UIViewController {
 
     override func loadView() {
         view = ui
+        ui.delegate = self
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Marvel Characters"
         setupBindings()
-        viewModel.listCharacters()
+        viewModel.listCharacters(filteredBy: ui.searchText)
     }
 
     private func setupBindings() {
@@ -51,6 +52,7 @@ final class CharacterListViewController: UIViewController {
                 cell.setup(name: item.name, imageURL: item.thumbnail?.url)
             },
             viewModel.isLoading.bind { [weak self] isLoading in
+                self?.ui.hideError()
                 self?.ui.hideLoadingView(isLoading)
             },
             viewModel.error.skip(1).bind { [weak self] errorMessage in
@@ -59,7 +61,7 @@ final class CharacterListViewController: UIViewController {
             ui.tableView.rx.didScroll.subscribe { [weak self] _ in
                 guard let self = self else { return }
                 if self.ui.didScrollToBottom() {
-                    self.viewModel.listCharacters()
+                    self.viewModel.listCharacters(filteredBy: self.ui.searchText)
                 }
             },
             ui.tableView.rx.modelSelected(Character.self).bind(onNext: { [weak self] character in
@@ -74,5 +76,13 @@ final class CharacterListViewController: UIViewController {
 extension CharacterListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         ui.tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK: CharacterListViewDelegate
+
+extension CharacterListViewController: CharacterListViewDelegate {
+    func updateSearchResults(for text: String?) {
+        viewModel.searchCharacters(filteredBy: text)
     }
 }

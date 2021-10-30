@@ -15,8 +15,9 @@ struct MarvelAPI {
         URL(string: "https://gateway.marvel.com:443")
     }
 
-    var commonParameters: [String: Any] {
-        let timestamp = "\(Date().timeIntervalSince1970)"
+    private let timestamp = "\(Date().timeIntervalSince1970)"
+
+    var commonParameters: [String: String] {
         return [
             "hash": createHash(timestamp: timestamp),
             "ts": timestamp,

@@ -9,7 +9,7 @@ import Alamofire
 import RxSwift
 
 protocol CharactersService {
-    func getCharacterDataContainer(offset: Int) -> Single<CharacterDataContainer>
+    func getCharacterDataContainer(offset: Int, name: String?) -> Single<CharacterDataContainer>
 }
 
 final class LiveCharacterService: CharactersService {
@@ -24,7 +24,7 @@ final class LiveCharacterService: CharactersService {
         self.marvelAPI = marvelAPI
     }
 
-    func getCharacterDataContainer(offset: Int) -> Single<CharacterDataContainer> {
+    func getCharacterDataContainer(offset: Int, name: String?) -> Single<CharacterDataContainer> {
         return Single.create { [weak self] observer in
             guard let self = self,
                   let url = self.marvelAPI.charactersURL
@@ -33,16 +33,10 @@ final class LiveCharacterService: CharactersService {
                 return Disposables.create()
             }
 
-            let parameters = [
-                "offset": offset
-            ].merging(self.marvelAPI.commonParameters) { current, _ in
-                current
-            }
-
             let task = AF.request(
                 url,
                 method: .get,
-                parameters: parameters
+                parameters: self.getParameters(offset: offset, name: name)
             ).validate().responseDecodable(of: CharacterDataWrapper.self) { response in
                 switch response.result {
                 case let .success(characterDataWrapper):
@@ -60,5 +54,19 @@ final class LiveCharacterService: CharactersService {
                 task.cancel()
             }
         }
+    }
+
+    private func getParameters(offset: Int, name: String?) -> [String: Any] {
+        var parameters = [
+            "offset": offset
+        ].merging(self.marvelAPI.commonParameters) { current, _ in
+            current
+        }
+
+        if let name = name, !name.isEmpty {
+            parameters["nameStartsWith"] = name
+        }
+
+        return parameters
     }
 }

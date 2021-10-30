@@ -31,7 +31,7 @@ class CharacterServiceTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Get character data container should succeed")
 
-        service.getCharacterDataContainer(offset: 0).subscribe { event in
+        service.getCharacterDataContainer(offset: 0, name: nil).subscribe { event in
             switch event {
             case let .success(characterDataContainer):
                 XCTAssertEqual(characterDataContainer.count, 2)
@@ -50,7 +50,7 @@ class CharacterServiceTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Get character data container should fail")
 
-        service.getCharacterDataContainer(offset: 0).subscribe { event in
+        service.getCharacterDataContainer(offset: 0, name: nil).subscribe { event in
             switch event {
             case .success:
                 XCTFail()
