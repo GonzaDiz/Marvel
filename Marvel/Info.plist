@@ -4,10 +4,10 @@
 <dict>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>i.annihil.us</key>
-		<dict/>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+		<key>i.annihil.us</key>
+		<dict/>
 	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
@@ -26,5 +26,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
 </dict>
 </plist>

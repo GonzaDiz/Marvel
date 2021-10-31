@@ -83,7 +83,7 @@ final class CharacterListView: UIView {
     func didScrollToBottom() -> Bool {
         let offsetY = tableView.contentOffset.y
         let height = tableView.contentSize.height
-        let buffer = 150.0
+        let buffer: CGFloat = 150.0
         let hasCellsToScroll = !tableView.visibleCells.isEmpty
 
         return offsetY > (height - tableView.frame.size.height - buffer) && hasCellsToScroll
