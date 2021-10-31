@@ -9,4 +9,5 @@ import Foundation
 
 struct ItemList: Decodable {
     let items: [Item]?
+    let available: Int?
 }

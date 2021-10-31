@@ -23,7 +23,7 @@ class CharacterDetailViewModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        mockedComics = ItemList(items: [Item(name: "Hulk #1"), Item(name: "Hulk #2")])
+        mockedComics = ItemList(items: [Item(name: "Hulk #1"), Item(name: "Hulk #2")], available: 2)
         mockedCharacter = Character(
             name: "Hulk",
             thumbnail: nil,

@@ -62,6 +62,7 @@
 		B3BA7AB2272D7B59002A90CD /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA7AB1272D7B59002A90CD /* PlaceholderView.swift */; };
 		B3BA7AB4272D8094002A90CD /* no_characters_mock.json in Resources */ = {isa = PBXBuildFile; fileRef = B3BA7AB3272D8094002A90CD /* no_characters_mock.json */; };
 		B3BA7AB5272D8094002A90CD /* no_characters_mock.json in Resources */ = {isa = PBXBuildFile; fileRef = B3BA7AB3272D8094002A90CD /* no_characters_mock.json */; };
+		B3BA7AC3272E2842002A90CD /* CharacterCellViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BA7AC2272E2842002A90CD /* CharacterCellViewData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +170,7 @@
 		B3BA7AAE272CD178002A90CD /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		B3BA7AB1272D7B59002A90CD /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		B3BA7AB3272D8094002A90CD /* no_characters_mock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = no_characters_mock.json; sourceTree = "<group>"; };
+		B3BA7AC2272E2842002A90CD /* CharacterCellViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCellViewData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,7 +359,7 @@
 		B3528EF6272B7940004834D6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B3BA7AB0272D7B2B002A90CD /* ChracaterList */,
+				B3BA7AB0272D7B2B002A90CD /* ChraracterList */,
 				B38C9509272C4A7000A77EB7 /* CharacterDetail */,
 				B3BA7AB1272D7B59002A90CD /* PlaceholderView.swift */,
 			);
@@ -450,13 +452,14 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
-		B3BA7AB0272D7B2B002A90CD /* ChracaterList */ = {
+		B3BA7AB0272D7B2B002A90CD /* ChraracterList */ = {
 			isa = PBXGroup;
 			children = (
 				B38C94FB272C405C00A77EB7 /* CharacterTableViewCell.swift */,
 				B38C9505272C471300A77EB7 /* CharacterListView.swift */,
+				B3BA7AC2272E2842002A90CD /* CharacterCellViewData.swift */,
 			);
-			path = ChracaterList;
+			path = ChraracterList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -678,6 +681,7 @@
 				B38C9512272C4C3900A77EB7 /* Item.swift in Sources */,
 				B31B1AED272B5E6A0026D54A /* AppDelegate.swift in Sources */,
 				B3BA7AB2272D7B59002A90CD /* PlaceholderView.swift in Sources */,
+				B3BA7AC3272E2842002A90CD /* CharacterCellViewData.swift in Sources */,
 				B3528EF8272B7973004834D6 /* CharacterListViewController.swift in Sources */,
 				B31B1AEF272B5E6A0026D54A /* SceneDelegate.swift in Sources */,
 				B3528EE8272B6D19004834D6 /* MarvelAPI.swift in Sources */,

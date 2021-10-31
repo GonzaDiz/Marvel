@@ -51,7 +51,7 @@ final class CharacterListViewController: UIViewController {
                     cellType: CharacterTableViewCell.self
                 )
             ) { (_, item, cell) in
-                cell.setup(name: item.name, imageURL: item.thumbnail?.url)
+                cell.setup(with: CharacterCellViewData(character: item))
             },
             viewModel.isLoading.observe(
                 on: MainScheduler.instance
