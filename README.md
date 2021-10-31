@@ -29,3 +29,7 @@ Dark mode:
 | Character List       | Character Detail    | Error view :( |
 | :------------- | :----------: | -----------: |
 |  ![list](https://user-images.githubusercontent.com/26527586/139591113-71cfdb5b-8638-4a8f-b196-2d4302a2f314.png) | ![detail](https://user-images.githubusercontent.com/26527586/139591118-bf4009f5-9ec5-443b-9361-2f1154301052.png)| ![error](https://user-images.githubusercontent.com/26527586/139591120-4381c115-ec04-46b1-8174-00b8aa613c3d.png)|
+
+## Contact
+
+I hope the code is self explanatory but don't hesitate to contact me to: `dizmartin.gonzalo@gmail.com` if you got any question.
