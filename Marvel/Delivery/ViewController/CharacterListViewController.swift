@@ -43,7 +43,9 @@ final class CharacterListViewController: UIViewController {
     private func setupBindings() {
         disposeBag.insert(
             ui.tableView.rx.setDelegate(self),
-            viewModel.characters.bind(
+            viewModel.characters.observe(
+                on: MainScheduler.instance
+            ).bind(
                 to: ui.tableView.rx.items(
                     cellIdentifier: CharacterTableViewCell.cellIdentifier,
                     cellType: CharacterTableViewCell.self
@@ -51,19 +53,25 @@ final class CharacterListViewController: UIViewController {
             ) { (_, item, cell) in
                 cell.setup(name: item.name, imageURL: item.thumbnail?.url)
             },
-            viewModel.isLoading.bind { [weak self] isLoading in
+            viewModel.isLoading.observe(
+                on: MainScheduler.instance
+            ).bind { [weak self] isLoading in
                 self?.ui.isLoading = isLoading
             },
-            viewModel.error.skip(1).bind { [weak self] errorMessage in
+            viewModel.error.observe(
+                on: MainScheduler.instance
+            ).bind { [weak self] errorMessage in
                 self?.ui.showError(errorMessage)
             },
-            ui.tableView.rx.didScroll.subscribe { [weak self] _ in
+            ui.tableView.rx.didScroll.observe(
+                on: MainScheduler.instance
+            ).subscribe { [weak self] _ in
                 guard let self = self else { return }
                 if self.ui.didScrollToBottom() {
                     self.viewModel.listCharacters(filteredBy: self.ui.searchText)
                 }
             },
-            ui.tableView.rx.modelSelected(Character.self).bind(onNext: { [weak self] character in
+            ui.tableView.rx.modelSelected(Character.self).observe(on: MainScheduler.instance).bind(onNext: { [weak self] character in
                 self?.didSelectCharacter(character)
             })
         )

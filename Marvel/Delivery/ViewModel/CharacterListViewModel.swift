@@ -10,9 +10,8 @@ import RxRelay
 
 final class CharacterListViewModel {
     let characters = BehaviorRelay<[Character]>(value: [])
-    let filteredCharacters = BehaviorRelay<[Character]>(value: [])
     let isLoading = BehaviorRelay<Bool>(value: false)
-    let error = BehaviorSubject<String>(value: "")
+    let error = PublishSubject<String>()
 
     private let charactersService: CharactersService
     private let disposeBag = DisposeBag()

@@ -61,17 +61,28 @@ final class CharacterDetailViewController: UIViewController {
 
     private func setupBindings() {
         disposeBag.insert(
-            viewModel.title.bind(onNext: { [weak self] title in
+            viewModel.title.observe(
+                on: MainScheduler.instance
+            ).bind(onNext: { [weak self] title in
                 self?.title = title
             }),
-            viewModel.sections.bind(to: tableView.rx.items(dataSource: dataSource)),
-            viewModel.header.bind(onNext: { [weak self] headerItems in
-                let headerView = CharacterDetailHeaderView(
-                    imageURL: headerItems.imageURL,
-                    description: headerItems.description
+            viewModel.sections.observe(
+                on: MainScheduler.instance
+            ).bind(
+                to: tableView.rx.items(
+                    dataSource: dataSource
                 )
-                self?.tableView.tableHeaderView = headerView
-            })
+            ),
+            viewModel.header.observe(
+                on: MainScheduler.instance
+            ).bind(onNext: { [weak self] headerItems in
+                        let headerView = CharacterDetailHeaderView(
+                            imageURL: headerItems.imageURL,
+                            description: headerItems.description
+                        )
+                        self?.tableView.tableHeaderView = headerView
+                    }
+                  )
         )
     }
 

@@ -77,7 +77,6 @@ class CharacterListViewModelTests: XCTestCase {
         XCTAssertEqual(
             errorObserver.events,
             [
-                .next(0, ""),
                 .next(0, "We couldn't find any character")
             ]
         )
@@ -104,7 +103,6 @@ class CharacterListViewModelTests: XCTestCase {
         XCTAssertEqual(
             errorObserver.events,
             [
-                .next(0, ""),
                 .next(0, "Ups! We're sorry something went wrong, please try again later")
             ]
         )

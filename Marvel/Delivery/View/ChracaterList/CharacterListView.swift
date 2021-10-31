@@ -84,8 +84,9 @@ final class CharacterListView: UIView {
         let offsetY = tableView.contentOffset.y
         let height = tableView.contentSize.height
         let buffer = 150.0
+        let hasCellsToScroll = !tableView.visibleCells.isEmpty
 
-        return offsetY > (height - tableView.frame.size.height - buffer)
+        return offsetY > (height - tableView.frame.size.height - buffer) && hasCellsToScroll
     }
 
     func showError(_ message: String) {
