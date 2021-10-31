@@ -9,7 +9,7 @@
 
 ## Requirements 
 
-- `Xcode 13.0 +`
+- `Xcode 12.0 +` (13.0 is recommended)
 - `Swift 4 +`
 
 ## Notes
